@@ -1,13 +1,12 @@
 """FastMCP entrypoint для atomno-mcp-pharma (тонкий клиент).
 
-Все тулы проксируют к hosted-бэкенду Atomno Labs (тариф Pro, ключ
+Все тулы проксируют к hosted-бэкенду Atomno MCP (тариф Pro, ключ
 MCP_PHARMA_API_KEY): check_drug_registration, get_drug_card, search_drug,
 get_zhnvlp_price, check_recall, get_instruction. Каждый ответ несёт
 disclaimer/source.
 
 Это справочная выдача государственных реестров ГРЛС/ЖНВЛП. Тулы НЕ формируют
-показаний, дозировок-назначений, оценок взаимодействий и подбора замен — это
-инвариант продукта (см. spec, разделы 4.4 и 8), а не опция.
+показаний, дозировок-назначений, оценок взаимодействий и подбора замен.
 """
 
 from __future__ import annotations
@@ -51,7 +50,7 @@ mcp: FastMCP = FastMCP(
         "(МНН) or registration-certificate number (РУ); get a full drug card "
         "(forms, dosages, holder, manufacturer, ATC); look up ЖНВЛП inclusion "
         "and the registered price cap; check Roszdravnadzor recalls; and get a "
-        "link to the official instruction. All tools go through the Atomno Labs "
+        "link to the official instruction. All tools go through the Atomno MCP "
         "hosted API and need a Pro key (MCP_PHARMA_API_KEY). This is a reference "
         "lookup of open government data, NOT medical advice: it does not provide "
         "indications, dosing, interactions or substitutions. Every answer carries "

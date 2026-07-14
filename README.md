@@ -54,6 +54,7 @@ Cursor / Claude Desktop (`mcp.json` / `claude_desktop_config.json`):
 | `MCP_PHARMA_API_KEY` | Ключ Pro (заголовок X-API-Key). [Получить](https://atomno-mcp.ru/pricing#pharma-pro) | да |
 | `MCP_PHARMA_API_BASE` | URL hosted-бэкенда (по умолчанию — прод) | нет |
 | `MCP_PHARMA_TIMEOUT` | Таймаут HTTP, сек (default 30) | нет |
+| `MCP_PHARMA_LOG_LEVEL` | Уровень логирования (DEBUG/INFO/WARNING/ERROR, default WARNING) | нет |
 
 ## Тулы
 

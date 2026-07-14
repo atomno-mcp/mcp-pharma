@@ -7,7 +7,7 @@
 
 ### Added
 
-- Тонкий MCP-клиент `atomno-mcp-pharma` (open-core: публичный клиент + приватный hosted-сервер).
+- Тонкий MCP-клиент `atomno-mcp-pharma` (публичный клиент + hosted corporate API, тариф Pro).
 - 6 тулов через hosted API (тариф Pro): `check_drug_registration`, `get_drug_card`,
   `search_drug`, `get_zhnvlp_price`, `check_recall`, `get_instruction`.
 - Мостик МНН↔ТН в поиске; проверка ЖНВЛП и предельной зарегистрированной цены (ПЗЦ).
