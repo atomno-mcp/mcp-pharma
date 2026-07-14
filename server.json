@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.atomno-mcp/mcp-pharma",
-  "description": "Russian drug reference — check ГРЛС registration status, get a drug card (forms, holder, ATC), look up ЖНВЛП inclusion and the state price cap, check Roszdravnadzor recalls, and link the official instruction. Reference data, not medical advice.",
+  "description": "Russian drug reference: GRLS registration, VEDL price cap, recalls, instructions via MCP.",
   "repository": {
     "url": "https://github.com/atomno-mcp/mcp-pharma",
     "source": "github"
