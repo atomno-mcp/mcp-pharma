@@ -1,0 +1,28 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.atomno-mcp/mcp-pharma",
+  "description": "Russian drug reference — check ГРЛС registration status, get a drug card (forms, holder, ATC), look up ЖНВЛП inclusion and the state price cap, check Roszdravnadzor recalls, and link the official instruction. Reference data, not medical advice.",
+  "repository": {
+    "url": "https://github.com/atomno-mcp/mcp-pharma",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "atomno-mcp-pharma",
+      "version": "0.1.0",
+      "runtimeHint": "uvx",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "MCP_PHARMA_API_KEY",
+          "description": "API key (Pro tier) for ГРЛС/ЖНВЛП registration, price-cap, recall and instruction lookups.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
