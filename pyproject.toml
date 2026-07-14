@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "atomno-mcp-pharma"
-version = "0.1.0"
+version = "0.1.2"
 description = "MCP server: Russian drug reference — check ГРЛС registration status, get a drug card (forms, holder, ATC), look up ЖНВЛП inclusion and the state price cap, check Roszdravnadzor recalls, and link the official instruction. Reference data, not medical advice."
 readme = "README.md"
 requires-python = ">=3.11"
