@@ -1,10 +1,10 @@
 <!-- mcp-name: io.github.atomno-mcp/mcp-pharma -->
+
 # atomno-mcp-pharma
 
-**Справочник лекарств РФ прямо в AI-ассистенте** — Russian drug reference for AI
-agents: check ГРЛС registration, get a drug card, look up ЖНВЛП price caps, check
-recalls, and link the official instruction — straight from the state registers.
-Works in Cursor, Claude Desktop, Cline, and any MCP client.
+Справочник лекарств РФ: регистрация в ГРЛС, карточка препарата, цены ЖНВЛП, отзывы партий и официальная инструкция. Ответ из государственных реестров Минздрава, без ручного перебора форм.
+
+Russian drug registry for AI agents.
 
 Спросите ассистента «Панадол зарегистрирован? Есть ли он в ЖНВЛП и по какой
 цене?» — и получите структурированный ответ из государственных реестров
