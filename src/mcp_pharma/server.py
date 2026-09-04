@@ -1,8 +1,8 @@
 """FastMCP entrypoint для atomno-mcp-pharma (тонкий клиент).
 
 Тулы проксируют к hosted-бэкенду. ГРЛС и предельные цены ЖНВЛП — из
-официальной суточной выгрузки Минздрава. Отзыв серий и текст инструкции
-этими архивами не закрываются. Это не медицинский совет.
+официальной суточной выгрузки Минздрава. Письма о сериях — из выгрузки
+Росздравнадзора. Текста инструкции в выгрузке ГРЛС нет. Это не медицинский совет.
 """
 
 from __future__ import annotations
@@ -35,11 +35,12 @@ DISCLAIMER = "Это справка из государственного рее
 mcp: FastMCP = FastMCP(
     name="atomno-mcp-pharma",
     instructions=(
-        "Russian drug-reference MCP client. Official Minzdrav GRLS dump and "
-        "VEDL ceiling-price dump: search, registration card, INN, holder, "
-        "status, ceiling price. Recall letters and instruction text are not "
-        "in those dumps — tools return ready=false with the reason. "
-        "Not medical advice. Hosted API, Pro key MCP_PHARMA_API_KEY. "
+        "Russian drug-reference MCP client. Official Minzdrav GRLS dump, "
+        "VEDL ceiling prices and Roszdravnadzor series letters: search, "
+        "registration card, INN, holder, status, ceiling price, recall. "
+        "Instruction text is not in the GRLS dump — that tool returns "
+        "ready=false with the reason. Not medical advice. Hosted API, "
+        "Pro key MCP_PHARMA_API_KEY. "
         "Key: https://atomno-mcp.ru/pricing#pharma-pro."
     ),
 )
@@ -172,7 +173,7 @@ async def check_recall(
     name: Annotated[str | None, Field(default=None, description="Торговое наименование препарата.")] = None,
     series: Annotated[str | None, Field(default=None, description="Номер серии (если известен).")] = None,
 ) -> dict[str, Any]:
-    """Отзыв серий: в выгрузке ГРЛС писем Росздравнадзора нет, ответ ready=false с причиной. Тариф Pro."""
+    """Письма Росздравнадзора о сериях: название, серия, тип письма, номер и дата. Справка, не медицинский совет. Тариф Pro."""
     if not (name or series):
         return _invalid_input("Укажите name или series.")
     return await _hosted_call(
@@ -199,8 +200,9 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="atomno-mcp-pharma",
         description=(
-            "MCP server: Russian drug-reference client. Official GRLS and VEDL "
-            "dumps; recall letters and instruction text are not in those dumps."
+            "MCP server: Russian drug-reference client. Official GRLS, VEDL "
+            "prices and Roszdravnadzor series letters. Instruction text is not "
+            "in the GRLS dump."
         ),
     )
     parser.add_argument(

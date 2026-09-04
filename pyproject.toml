@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "atomno-mcp-pharma"
-version = "0.1.4"
-description = "MCP client for Russian drug reference from official Minzdrav GRLS and VEDL price dumps. Not medical advice."
+version = "0.2.0"
+description = "MCP client for Russian drug reference: official GRLS, VEDL prices and Roszdravnadzor series letters. Not medical advice."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -63,6 +63,7 @@ atomno-mcp-pharma = "mcp_pharma.server:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mcp_pharma"]
+include = ["src/mcp_pharma/py.typed"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

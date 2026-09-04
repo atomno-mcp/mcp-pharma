@@ -2,18 +2,18 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.atomno-mcp/mcp-pharma",
   "title": "mcp-pharma",
-  "description": "Drug reference from official Minzdrav GRLS and VEDL price dumps. Not medical advice.",
+  "description": "Drug reference: GRLS, VEDL prices, Roszdravnadzor series recalls. Not medical advice.",
   "repository": {
     "url": "https://github.com/atomno-mcp/mcp-pharma",
     "source": "github"
   },
-  "version": "0.1.4",
+  "version": "0.2.0",
   "packages": [
     {
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "atomno-mcp-pharma",
-      "version": "0.1.4",
+      "version": "0.2.0",
       "runtimeHint": "uvx",
       "transport": {
         "type": "stdio"
@@ -21,7 +21,7 @@
       "environmentVariables": [
         {
           "name": "MCP_PHARMA_API_KEY",
-          "description": "API key (Pro tier) for the hosted backend. GRLS and VEDL dumps; recall letters and instruction text are not in those dumps.",
+          "description": "API key (Pro tier) for the hosted backend. GRLS, VEDL prices and Roszdravnadzor series letters; instruction text is not in those dumps.",
           "isRequired": true,
           "isSecret": true
         }
