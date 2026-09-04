@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.atomno-mcp/mcp-pharma",
   "title": "mcp-pharma",
-  "description": "Drug reference MCP. GRLS, VEDL and recall sources not connected.",
+  "description": "Drug reference from official Minzdrav GRLS and VEDL price dumps. Not medical advice.",
   "repository": {
     "url": "https://github.com/atomno-mcp/mcp-pharma",
     "source": "github"
@@ -21,7 +21,7 @@
       "environmentVariables": [
         {
           "name": "MCP_PHARMA_API_KEY",
-          "description": "API key (Pro tier) for the hosted backend. Lookups return not-ready until GRLS/VEDL/recalls are connected.",
+          "description": "API key (Pro tier) for the hosted backend. GRLS and VEDL dumps; recall letters and instruction text are not in those dumps.",
           "isRequired": true,
           "isSecret": true
         }

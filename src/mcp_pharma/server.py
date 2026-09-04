@@ -1,8 +1,8 @@
 """FastMCP entrypoint для atomno-mcp-pharma (тонкий клиент).
 
-Тулы проксируют к hosted-бэкенду. ГРЛС, ЖНВЛП и Росздравнадзор ещё не
-подключены: ответ — ready=false, не пустая карточка препарата. Тулы НЕ
-формируют показаний, дозировок-назначений и подбора замен.
+Тулы проксируют к hosted-бэкенду. ГРЛС и предельные цены ЖНВЛП — из
+официальной суточной выгрузки Минздрава. Отзыв серий и текст инструкции
+этими архивами не закрываются. Это не медицинский совет.
 """
 
 from __future__ import annotations
@@ -30,22 +30,16 @@ _DEFAULT_HTTP_HOST = "127.0.0.1"
 _DEFAULT_HTTP_PORT = 8000
 _VALID_LOG_LEVELS = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL")
 
-DISCLAIMER = (
-    "Справочная информация из государственных реестров ГРЛС/ЖНВЛП (Минздрав РФ). "
-    "Не является медицинской консультацией, назначением или рекомендацией. "
-    "По вопросам применения, дозировки, показаний и совместимости препаратов "
-    "обратитесь к врачу или фармацевту."
-)
+DISCLAIMER = "Это справка из государственного реестра, а не медицинский совет."
 
 mcp: FastMCP = FastMCP(
     name="atomno-mcp-pharma",
     instructions=(
-        "Russian drug-reference MCP client. GRLS, VEDL (ЖНВЛП) and Roszdravnadzor "
-        "are not connected yet: every lookup returns ready=false with the source "
-        "name, not an empty drug card. Do not treat that as «drug not found». "
-        "Tools: check_drug_registration, get_drug_card, search_drug, "
-        "get_zhnvlp_price, check_recall, get_instruction. Hosted API, Pro key "
-        "MCP_PHARMA_API_KEY. Not medical advice. "
+        "Russian drug-reference MCP client. Official Minzdrav GRLS dump and "
+        "VEDL ceiling-price dump: search, registration card, INN, holder, "
+        "status, ceiling price. Recall letters and instruction text are not "
+        "in those dumps — tools return ready=false with the reason. "
+        "Not medical advice. Hosted API, Pro key MCP_PHARMA_API_KEY. "
         "Key: https://atomno-mcp.ru/pricing#pharma-pro."
     ),
 )
@@ -124,7 +118,7 @@ async def check_drug_registration(
     mnn: Annotated[str | None, Field(default=None, description="Международное непатентованное наименование / МНН (напр. «парацетамол»).")] = None,
     ru_number: Annotated[str | None, Field(default=None, description="Номер регистрационного удостоверения (напр. «ЛП-001234»).")] = None,
 ) -> dict[str, Any]:
-    """Регистрация в ГРЛС ещё не подключена. Ответ: ready=false, источник подключается. Не путать с «препарат не найден». Задайте name, mnn или ru_number. Тариф Pro."""
+    """Статус регистрации в ГРЛС: номер РУ, держатель, даты, статус. Задайте name, mnn или ru_number. Справка, не медицинский совет. Тариф Pro."""
     if not (name or mnn or ru_number):
         return _invalid_input("Укажите хотя бы одно: name, mnn или ru_number.")
     return await _hosted_call(
@@ -138,7 +132,7 @@ async def get_drug_card(
     name: Annotated[str | None, Field(default=None, description="Торговое наименование препарата.")] = None,
     ru_number: Annotated[str | None, Field(default=None, description="Номер регистрационного удостоверения (РУ).")] = None,
 ) -> dict[str, Any]:
-    """Карточка из ГРЛС ещё не подключена. Ответ: ready=false, источник подключается. Тариф Pro."""
+    """Карточка из ГРЛС: торговое имя, МНН, формы, держатель, производитель, статус. Справка, не медицинский совет. Тариф Pro."""
     if not (name or ru_number):
         return _invalid_input("Укажите name или ru_number.")
     return await _hosted_call(
@@ -152,7 +146,7 @@ async def search_drug(
     query: Annotated[str, Field(min_length=1, description="Строка поиска по торговому наименованию (ТН) или МНН.")],
     limit: Annotated[int, Field(default=20, ge=1, le=100, description="Максимум результатов.")] = 20,
 ) -> dict[str, Any]:
-    """Поиск по ГРЛС ещё не подключён. Ответ: ready=false, источник подключается. Тариф Pro."""
+    """Поиск по ГРЛС: торговое наименование или МНН. Справка, не медицинский совет. Тариф Pro."""
     return await _hosted_call(
         "search_drug",
         lambda: _call(lambda c: c.search(query, limit)),
@@ -164,7 +158,7 @@ async def get_zhnvlp_price(
     name: Annotated[str | None, Field(default=None, description="Торговое наименование препарата.")] = None,
     mnn: Annotated[str | None, Field(default=None, description="МНН (позиция перечня ЖНВЛП).")] = None,
 ) -> dict[str, Any]:
-    """Перечень ЖНВЛП ещё не подключён. Ответ: ready=false, источник подключается. Задайте name или mnn. Тариф Pro."""
+    """Предельная цена из реестра ЖНВЛП по названию или МНН. Справка, не медицинский совет. Тариф Pro."""
     if not (name or mnn):
         return _invalid_input("Укажите name или mnn.")
     return await _hosted_call(
@@ -178,7 +172,7 @@ async def check_recall(
     name: Annotated[str | None, Field(default=None, description="Торговое наименование препарата.")] = None,
     series: Annotated[str | None, Field(default=None, description="Номер серии (если известен).")] = None,
 ) -> dict[str, Any]:
-    """Письма Росздравнадзора ещё не подключены. Ответ: ready=false, источник подключается. Задайте name или series. Тариф Pro."""
+    """Отзыв серий: в выгрузке ГРЛС писем Росздравнадзора нет, ответ ready=false с причиной. Тариф Pro."""
     if not (name or series):
         return _invalid_input("Укажите name или series.")
     return await _hosted_call(
@@ -192,7 +186,7 @@ async def get_instruction(
     name: Annotated[str | None, Field(default=None, description="Торговое наименование препарата.")] = None,
     ru_number: Annotated[str | None, Field(default=None, description="Номер регистрационного удостоверения (РУ).")] = None,
 ) -> dict[str, Any]:
-    """Инструкция ГРЛС ещё не подключена. Ответ: ready=false, источник подключается. Задайте name или ru_number. Тариф Pro."""
+    """Текст инструкции в официальной выгрузке ГРЛС отсутствует, ответ ready=false с причиной. Тариф Pro."""
     if not (name or ru_number):
         return _invalid_input("Укажите name или ru_number.")
     return await _hosted_call(
@@ -205,8 +199,8 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="atomno-mcp-pharma",
         description=(
-            "MCP server: Russian drug-reference client. GRLS, VEDL and recall "
-            "sources are not connected yet; replies are honest not-ready."
+            "MCP server: Russian drug-reference client. Official GRLS and VEDL "
+            "dumps; recall letters and instruction text are not in those dumps."
         ),
     )
     parser.add_argument(

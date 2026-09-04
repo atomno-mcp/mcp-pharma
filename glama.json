@@ -4,5 +4,5 @@
     "atomnos"
   ],
   "name": "mcp-pharma",
-  "description": "Drug reference MCP. GRLS, VEDL and recall sources not connected."
+  "description": "Drug reference from official Minzdrav GRLS and VEDL price dumps. Not medical advice."
 }

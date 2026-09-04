@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "atomno-mcp-pharma"
 version = "0.1.4"
-description = "MCP client for Russian drug reference. GRLS, VEDL and recall sources are not connected yet; requests return an honest not-ready reply. Not medical advice."
+description = "MCP client for Russian drug reference from official Minzdrav GRLS and VEDL price dumps. Not medical advice."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
