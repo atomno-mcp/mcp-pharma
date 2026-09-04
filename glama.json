@@ -4,5 +4,5 @@
     "atomnos"
   ],
   "name": "mcp-pharma",
-  "description": "Russian drug reference: GRLS registration, VEDL price cap, recalls, instructions via MCP."
+  "description": "Drug reference MCP. GRLS, VEDL and recall sources not connected."
 }

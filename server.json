@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.atomno-mcp/mcp-pharma",
   "title": "mcp-pharma",
-  "description": "Russian drug reference: GRLS registration, VEDL price cap, recalls, instructions via MCP.",
+  "description": "Drug reference MCP. GRLS, VEDL and recall sources not connected.",
   "repository": {
     "url": "https://github.com/atomno-mcp/mcp-pharma",
     "source": "github"
@@ -21,7 +21,7 @@
       "environmentVariables": [
         {
           "name": "MCP_PHARMA_API_KEY",
-          "description": "API key (Pro tier) for ГРЛС/ЖНВЛП registration, price-cap, recall and instruction lookups.",
+          "description": "API key (Pro tier) for the hosted backend. Lookups return not-ready until GRLS/VEDL/recalls are connected.",
           "isRequired": true,
           "isSecret": true
         }
